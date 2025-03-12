@@ -1,0 +1,21 @@
+{
+    "appId": "com.misba.Deski",
+    "files": [
+      "dist-react/**/*", 
+      "src/electron/main.js" 
+    ],
+    "icon": "./favicon.png",
+    "directories": {
+      "output": "dist-electron"
+    },
+    "mac": {
+      "target": "dmg"
+    },
+    "linux": {
+      "target": "AppImage",
+      "category": "utility"
+    },
+    "win": {
+      "target": ["portable", "msi"]
+    }
+  }
