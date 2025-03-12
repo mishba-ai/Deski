@@ -1,21 +1,20 @@
 {
-    "appId": "com.misba.Deski",
-    "files": [
-      "dist-react/**/*", 
-      "src/electron/main.js" 
-    ],
-    "icon": "./favicon.png",
-    "directories": {
-      "output": "dist-electron"
-    },
-    "mac": {
-      "target": "dmg"
-    },
-    "linux": {
-      "target": "AppImage",
-      "category": "utility"
-    },
-    "win": {
-      "target": ["portable", "msi"]
-    }
+  "appId": "com.misba.Deski",
+  "files": ["dist-react/**/*", "dist-electron/**/*", "package.json"],
+  "directories": {
+    "output": "dist"  
+  },
+  "extraResources": ["dist-electron/preload.js"],
+  "mac": {
+    "target": "dmg"
+  },
+  "linux": {
+    "target": "AppImage",
+    "category": "utility"
+  },
+  "win": {
+    "target": ["portable", "msi"],
+    "icon": "./public/favicon.png"
+
   }
+}
