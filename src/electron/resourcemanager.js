@@ -1,52 +1,98 @@
-//will be using os-utils for cpu and ram usage
-
 import osUtils from "os-utils";
 import fs from "fs";
 import os from "os";
 import process from "process";
 
-const POLLING_INTERVAL = 500; //
+const POLLING_INTERVAL = 500;
 
-// Polls the resources for changes and updates the resources in the database
+// Polls the resources for changes and sends stats to the renderer process
+export function pollResources(mainWindow) {
+  const intervalId = setInterval(async () => {
+    try {
+      const cpuUsage = await getCpuUsage();
+      const ramUsage = getRamUsage();
+      const storageData = getStorageData();
 
-export function pollResources() {
-  setInterval(async () => {
-    const cpuUsage = await getCpuUsage();
-    const ramUsage = getRamUsage();
-    const storageData = getStorageData();
-    console.log({ cpuUsage, ramUsage, storageUsage: storageData.usage });
+      const stats = {
+        cpuUsage: cpuUsage,
+        ramUsage: ramUsage,
+        storageUsage: storageData.usage,
+      };
+
+      console.log("Sending stats:", stats); // Debug in main process
+      mainWindow.webContents.send("statistics", stats);
+    } catch (error) {
+      console.error("Error polling resources:", error);
+    }
   }, POLLING_INTERVAL);
-}
 
-export function getStaticData() {
-  const totalStorage = getStorageData().total;
-  const cpuMOdel = os.cpus()[0].model;
-  const totalMemoryGB = Math.floor(osUtils.totalmem() / 1024);
-
-  return {
-    totalStorage,
-    cpuMOdel,
-    totalMemoryGB,
-  };
-}
-
-function getCpuUsage() {
-  return new Promise((resolve) => {
-    osUtils.cpuUsage(resolve);
+  // Cleanup interval when the window is closed
+  mainWindow.on("closed", () => {
+    clearInterval(intervalId);
   });
 }
 
-function getRamUsage() {
-  return 1 - osUtils.freememPercentage();
+// Retrieves static system information
+export function getStaticData() {
+  try {
+    const totalStorage = getStorageData().total;
+    const cpuModel = os.cpus()[0].model; // Fixed typo
+    const totalMemoryGB = Math.floor(osUtils.totalmem() / 1024);
+
+    return {
+      totalStorage,
+      cpuModel, 
+      totalMemoryGB,
+    };
+  } catch (error) {
+    console.error("Error getting static data:", error);
+    return {
+      totalStorage: 0,
+      cpuModel: "Unknown",
+      totalMemoryGB: 0,
+    };
+  }
 }
 
-function getStorageData() {
-  const stats = fs.statfsSync(process.platform === "win32" ? "C:" : "/"); // get the stats of the root directory
-  const total = stats.bsize * stats.blocks; // total storage in bytes
-  const free = stats.bsize * stats.bfree; // free storage in bytes
+// Retrieves CPU usage as a percentage
+function getCpuUsage() {
+  return new Promise((resolve, reject) => {
+    osUtils.cpuUsage((usage) => {
+      if (usage === undefined || isNaN(usage)) {
+        reject(new Error("Failed to get CPU usage"));
+      } else {
+        resolve(usage);
+      }
+    });
+  });
+}
 
-  return {
-    total: Math.floor(total / 1_000_000_000), // convert bytes to GB
-    usage: 1 - free / total, // calculate the usage percentage
-  };
+// Calculates RAM usage as a percentage
+function getRamUsage() {
+  try {
+    return 1 - osUtils.freememPercentage();
+  } catch (error) {
+    console.error("Error getting RAM usage:", error);
+    return 0; // Return a default value in case of error
+  }
+}
+
+// Retrieves storage usage for the root directory
+function getStorageData() {
+  try {
+    const stats = fs.statfsSync(process.platform === "win32" ? "C://" : "/");
+    const total = stats.bsize * stats.blocks; // Total storage in bytes
+    const free = stats.bsize * stats.bfree; // Free storage in bytes
+
+    return {
+      total: Math.floor(total / 1_000_000_000), // Convert bytes to GB
+      usage: 1 - free / total, // Calculate usage percentage
+    };
+  } catch (error) {
+    console.error("Error getting storage data:", error);
+    return {
+      total: 0,
+      usage: 0,
+    };
+  }
 }

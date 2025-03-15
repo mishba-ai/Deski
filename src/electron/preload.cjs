@@ -1,6 +1,16 @@
-const electron = require("electron");
+// preload.cjs
+// This script is loaded in the renderer process before other scripts.
 
-electron.contextBridge.exposeInMainWorld("electron", {
-  subscribeStatistics: (callback) => callback({}),
-  getStaticData: () => console.log('static'),
+const { contextBridge, ipcRenderer } = require('electron');
+
+// For debugging
+console.log("Preload script is running");
+
+contextBridge.exposeInMainWorld('electron', {
+  subscribeStatistics: (callback) => {
+    ipcRenderer.on('statistics', (_, stats) => {
+      callback(stats);
+    });
+  },
+  getStaticData: () => ipcRenderer.invoke('getStaticData')
 });

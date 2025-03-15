@@ -1,10 +1,16 @@
+import { useEffect } from "react";
+
 function App() {
-  // @ts-ignore
-  window.electron.getStaticData();
-  
+  useEffect(() => {
+    //@ts-ignore
+    window.electron.subscribeStatistics((stats) => {
+      console.log(stats);
+    });
+  }, []);
+
   return (
     <>
-      <div>salam,duniya!</div>
+      <div>Salam, duniya!</div>
     </>
   );
 }

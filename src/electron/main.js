@@ -1,19 +1,20 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, ipcMain } from "electron";
 import path from "path";
 import { isDev } from "./utils.js";
-import { pollResources } from "./resourcemanager.js";
+import { getStaticData, pollResources } from "./resourcemanager.js";
 import { getPreloadPath } from "./pathResolver.js";
+
+console.log("Preload script path:", getPreloadPath());
 
 app.on("ready", () => {
   const mainWindow = new BrowserWindow({
-    icon: path.join(app.getAppPath(), "/dist-react/favicon.png"),
     webPreferences: {
-      width: 800,
-      height: 600,
       preload: getPreloadPath(),
       contextIsolation: true,
       nodeIntegration: false,
+      
     },
+    icon: path.join(app.getAppPath(), "/dist-react/favicon.png"),
   });
 
   if (isDev()) {
@@ -22,5 +23,9 @@ app.on("ready", () => {
     mainWindow.loadFile(path.join(app.getAppPath(), "/dist-react/index.html"));
   }
 
-  pollResources();
+  pollResources(mainWindow);
+  //on or send are for more UDP type of communication
+  ipcMain.handle("getStaticData", () => {
+    return getStaticData();
+  });
 });

@@ -11,6 +11,7 @@
     "dev:react": "vite",
     "dev:electron": "cross-env NODE_ENV=development electron .",
     "copy:electron": "if not exist dist-electron mkdir dist-electron && xcopy /s /e /y /i src\\electron\\* dist-electron\\",
+    "build:electron": "electron-builder --dir",
     "build": "npm run copy:electron && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
