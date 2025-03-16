@@ -2,6 +2,8 @@ import osUtils from "os-utils";
 import fs from "fs";
 import os from "os";
 import process from "process";
+import { ipcWebContentsSend } from "./utils";
+import { webContents } from "electron";
 
 const POLLING_INTERVAL = 500;
 
@@ -20,7 +22,7 @@ export function pollResources(mainWindow) {
       };
 
       console.log("Sending stats:", stats); // Debug in main process
-      mainWindow.webContents.send("statistics", stats);
+      ipcWebContentsSend("statistics", mainWindow.webContents, stats);
     } catch (error) {
       console.error("Error polling resources:", error);
     }
@@ -41,7 +43,7 @@ export function getStaticData() {
 
     return {
       totalStorage,
-      cpuModel, 
+      cpuModel,
       totalMemoryGB,
     };
   } catch (error) {
