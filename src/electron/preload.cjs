@@ -43,4 +43,4 @@ function ipcOn(key, callback) {
 
 function ipcSend(key, payload) {
   ipcRenderer.send(key, payload);
-}
+} 

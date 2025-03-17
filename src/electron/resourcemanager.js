@@ -2,8 +2,7 @@ import osUtils from "os-utils";
 import fs from "fs";
 import os from "os";
 import process from "process";
-import { ipcWebContentsSend } from "./utils";
-import { webContents } from "electron";
+import { ipcWebContentsSend } from "./utils.js";
 
 const POLLING_INTERVAL = 500;
 

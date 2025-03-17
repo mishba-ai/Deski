@@ -24,7 +24,8 @@
   "dependencies": {
     "os-utils": "^0.0.14",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "recharts": "^2.15.1"
   },
   "devDependencies": {
     "@babel/core": "^7.26.10",

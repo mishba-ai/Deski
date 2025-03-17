@@ -2,7 +2,7 @@ import { app, BrowserWindow, ipcMain } from "electron";
 import path from "path";
 import { isDev } from "./utils.js";
 import { getStaticData, pollResources } from "./resourcemanager.js";
-import { getPreloadPath } from "./pathResolver.js";
+import { getPreloadPath ,getUIPath} from "./pathResolver.js";
 
 console.log("Preload script path:", getPreloadPath());
 
@@ -14,7 +14,7 @@ app.on("ready", () => {
       nodeIntegration: false,
       
     },
-    icon: path.join(app.getAppPath(), "/dist-react/favicon.png"),
+    icon: path.join(getUIPath()),
   });
 
   if (isDev()) {

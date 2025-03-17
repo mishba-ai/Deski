@@ -42,7 +42,8 @@ export function ipcWebContentsSend(key, webContents, payload) {
 
 //Security function to prevent unauthorized IPC communication
 export function validateEventFrame(frame) {
-  if (isDev() && URL(frame.url).host === "localhost:5123") {
+  console.log(frame.url);
+  if (isDev() && new URL(frame.url).host === "localhost:5123") {
     return;
   }
   if (frame.url !== pathToFileURL(getUIPath()).toString()) {
