@@ -16,15 +16,9 @@ function App() {
   return (
     <>
       <div style={{ height: 120 }}>
-        <Chart data={cpuUsages} maxDataPoint={10}/>{" "}
+        <Chart data={cpuUsages} maxDataPoint={10} />{" "}
       </div>
       <div>Salam, duniya!</div>
-      {/* <div style={{height:120}}>
-      <Basechart
-        data={[{ value: 25 }, { value: 30 }, { value: 100 }]}
-        stroke="red"
-        fill="blue"
-      /></div> */}
     </>
   );
 }

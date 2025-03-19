@@ -1,20 +1,23 @@
 {
   "appId": "com.misba.Deski",
-  "files": ["dist-react/**/*", "dist-electron/**/*", "package.json"],
+  "files": ["dist-react/**/*", "dist-electron/**/*", "package.json",  "src/assets/**/*"
+],
   "directories": {
     "output": "dist"  
   },
-  "extraResources": ["dist-electron/preload.js"],
+  "extraResources": ["dist-electron/preload.cjs","src/assets/**"],
   "mac": {
+    "icon":"src/assets/trayIcon.icns",
     "target": "dmg"
   },
   "linux": {
+    "icon": "src/assets/trayIcon.ico",
     "target": "AppImage",
     "category": "utility"
   },
   "win": {
-    "target": ["portable", "msi"],
-    "icon": "./public/favicon.png"
+    "icon": "src/assets/trayIcon.ico",
+    "target": ["portable", "msi"]
 
   }
 }

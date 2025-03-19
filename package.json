@@ -12,7 +12,7 @@
     "dev:electron": "cross-env NODE_ENV=development electron .",
     "watch:electron": "webpack --config electron.webpack.js --watch",
     "build:electron": "webpack --config electron.webpack.js",
-    "build": "npm run copy:electron && vite build",
+    "build":"npm run build:electron && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "dist:mac": "npm run build && electron-builder --mac --arm64",
