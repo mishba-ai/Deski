@@ -1,6 +1,6 @@
 {
   "name": "deski",
-  "private": true,
+  "private": true,  
   "version": "0.0.0",
   "type": "module",
   "main": "dist-electron/main.cjs",

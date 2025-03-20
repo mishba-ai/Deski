@@ -34,13 +34,14 @@ export default {
           options: {
             presets: ["@babel/preset-env"], // Use @babel/preset-env for modern JS
           },
-        },
+        },    
       },
+      
     ],
   },
   // Resolve file extensions
   resolve: {
-    extensions: [".js", ".json","cjs"], // Add '.ts' if using TypeScript
+    extensions: [".js", ".json",".cjs"], // Add '.ts' if using TypeScript
   },
   // Development tools (source maps, etc.)
   devtool: "inline-source-map",

@@ -1,6 +1,8 @@
 import path from "path";
 import { app } from "electron";
 import { isDev } from "./utils.js";
+import process from "process";
+
 
 export function getPreloadPath() {
   return path.join(
@@ -15,5 +17,10 @@ export function getUIPath() {
 }
 
 export function getAssetsPath() {
-  return path.join(app.getAppPath(), isDev() ? '.' : '..', "/src/assets");
+  if (isDev()) {
+    return path.join(app.getAppPath(), "/src/assets");
+  } else {
+    // In production, resources are in the extraResources folder
+    return path.join(process.resourcesPath, "assets");
+  }
 }

@@ -8,29 +8,21 @@ const POLLING_INTERVAL = 500;
 
 // Polls the resources for changes and sends stats to the renderer process
 export function pollResources(mainWindow) {
-  const intervalId = setInterval(async () => {
-    try {
-      const cpuUsage = await getCpuUsage();
-      const ramUsage = getRamUsage();
-      const storageData = getStorageData();
+  setInterval(async () => {
+    const cpuUsage = await getCpuUsage();
+    const ramUsage = getRamUsage();
+    const storageData = getStorageData();
 
-      const stats = {
-        cpuUsage: cpuUsage,
-        ramUsage: ramUsage,
-        storageUsage: storageData.usage,
-      };
+    const stats = {
+      cpuUsage: cpuUsage,
+      ramUsage: ramUsage,
+      storageUsage: storageData.usage,
+    };
 
-      console.log("Sending stats:", stats); // Debug in main process
-      ipcWebContentsSend("statistics", mainWindow.webContents, stats);
-    } catch (error) {
-      console.error("Error polling resources:", error);
-    }
+    console.log("Sending stats:", stats); // Debug in main process
+    ipcWebContentsSend("statistics", mainWindow.webContents, stats);
   }, POLLING_INTERVAL);
 
-  // Cleanup interval when the window is closed
-  mainWindow.on("closed", () => {
-    clearInterval(intervalId);
-  });
 }
 
 // Retrieves static system information

@@ -3,6 +3,8 @@
 import { useMemo } from "react";
 import { useStatistics } from "./ui/useStatistics";
 import { Chart } from "./ui/components/Chart.jsx";
+
+
 function App() {
   const statistics = useStatistics(10);
 

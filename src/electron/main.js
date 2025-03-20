@@ -3,7 +3,9 @@ import { app, BrowserWindow, ipcMain } from "electron";
 import { isDev } from "./utils.js";
 import { getStaticData, pollResources } from "./resourcemanager.js";
 import { getPreloadPath, getUIPath } from "./pathResolver.js";
+import { createMenu } from "./menu.js";
 import { createTray } from "./tray.js";
+import { task } from "./task.js";
 
 app.on("ready", () => {
   const mainWindow = new BrowserWindow({
@@ -26,8 +28,11 @@ app.on("ready", () => {
     return getStaticData();
   });
 
-  createTray(mainWindow)
+  console.log("Creating tray...");
+  createTray(mainWindow);
   handleCloseEvents(mainWindow);
+  createMenu(mainWindow);
+  task(mainWindow);
 });
 
 function handleCloseEvents(mainWindow) {

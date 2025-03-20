@@ -10,7 +10,7 @@ contextBridge.exposeInMainWorld("electron", {
     ipcRenderer.on("statistics", subscription);
 
     //Returns an unsubscribe function to clean up the listener when no longer needed
-    return () => ipcRenderer.off("statistics", subscription);
+    return () => ipcRenderer.removeListener("statistics", subscription);
   },
 
   //Retrieves system hardware information
