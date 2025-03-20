@@ -19,7 +19,7 @@ export function pollResources(mainWindow) {
       storageUsage: storageData.usage,
     };
 
-    console.log("Sending stats:", stats); // Debug in main process
+    // console.log("Sending stats:", stats); // Debug in main process
     ipcWebContentsSend("statistics", mainWindow.webContents, stats);
   }, POLLING_INTERVAL);
 
@@ -38,7 +38,7 @@ export function getStaticData() {
       totalMemoryGB,
     };
   } catch (error) {
-    console.error("Error getting static data:", error);
+    // console.error("Error getting static data:", error);
     return {
       totalStorage: 0,
       cpuModel: "Unknown",
@@ -65,7 +65,7 @@ function getRamUsage() {
   try {
     return 1 - osUtils.freememPercentage();
   } catch (error) {
-    console.error("Error getting RAM usage:", error);
+    // console.error("Error getting RAM usage:", error);
     return 0; // Return a default value in case of error
   }
 }
@@ -82,7 +82,7 @@ function getStorageData() {
       usage: 1 - free / total, // Calculate usage percentage
     };
   } catch (error) {
-    console.error("Error getting storage data:", error);
+    // console.error("Error getting storage data:", error);
     return {
       total: 0,
       usage: 0,

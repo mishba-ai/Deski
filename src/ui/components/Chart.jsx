@@ -13,11 +13,12 @@ export function Chart(props) {
     ];
   }, [props.data, props.maxDataPoint]);
 
-  return <Basechart data={preparedData}></Basechart>;
+  return <Basechart data={preparedData}/>;
 }
 
 //props validation
 Chart.propTypes = {
   data: PropTypes.arrayOf(PropTypes.number).isRequired,
   maxDataPoint: PropTypes.number,
+  selectedView:''
 };

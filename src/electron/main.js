@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain, Menu } from "electron";
 
 import { isDev } from "./utils.js";
 import { getStaticData, pollResources } from "./resourcemanager.js";
@@ -7,6 +7,8 @@ import { createMenu } from "./menu.js";
 import { createTray } from "./tray.js";
 import { task } from "./task.js";
 
+// Menu.setApplicationMenu(null);
+
 app.on("ready", () => {
   const mainWindow = new BrowserWindow({
     webPreferences: {
@@ -14,6 +16,7 @@ app.on("ready", () => {
       contextIsolation: true,
       nodeIntegration: false,
     },
+    frame:false,
   });
 
   if (isDev()) {
