@@ -1,13 +1,10 @@
 import { app, BrowserWindow, ipcMain, Menu } from "electron";
 
-import { isDev } from "./utils.js";
+import { ipcMainHandle, ipcMainOn, isDev } from "./utils.js";
 import { getStaticData, pollResources } from "./resourcemanager.js";
 import { getPreloadPath, getUIPath } from "./pathResolver.js";
 import { createMenu } from "./menu.js";
 import { createTray } from "./tray.js";
-import { task } from "./task.js";
-
-// Menu.setApplicationMenu(null);
 
 app.on("ready", () => {
   const mainWindow = new BrowserWindow({
@@ -16,7 +13,7 @@ app.on("ready", () => {
       contextIsolation: true,
       nodeIntegration: false,
     },
-    frame:false,
+    frame: false,
   });
 
   if (isDev()) {
@@ -27,15 +24,28 @@ app.on("ready", () => {
 
   pollResources(mainWindow);
   //on or send are for more UDP type of communication
-  ipcMain.handle("getStaticData", () => {
+  ipcMainHandle("getStaticData", () => {
     return getStaticData();
+  });
+
+  ipcMainOn("sendFrameAction", (payload) => {
+    switch (payload) {
+      case "MINIMIZE":
+        mainWindow.minimize();
+        break;
+      case "MAXIMIZE":
+        mainWindow.maximize();
+        break;
+      case "CLOSE":
+        mainWindow.close();
+        break;
+    }
   });
 
   console.log("Creating tray...");
   createTray(mainWindow);
   handleCloseEvents(mainWindow);
   createMenu(mainWindow);
-  task(mainWindow);
 });
 
 function handleCloseEvents(mainWindow) {

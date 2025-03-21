@@ -23,7 +23,7 @@ contextBridge.exposeInMainWorld("electron", {
 
   //Sends window control commands to the main process
   //For window controls like minimize, maximize, or close
-  sendFrameAction: (payload) => ipcSend("sendframeAction", payload), //Sends a one-way message with the action to perform
+  sendFrameAction: (payload) => ipcSend("sendFrameAction", payload), //Sends a one-way message with the action to perform
 });
 
 function ipcInvoke(key) {
