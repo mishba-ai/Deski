@@ -1,29 +1,32 @@
-import { Tray } from "electron";
-import path from "path";
-import { getAssetsPath } from "./pathResolver.js";
-import process from "process";
+import { Menu, Tray, app } from 'electron';
+import { getAssetsPath } from './pathResolver.js';
+import path from 'path';
+import process from 'process';
 
 export function createTray(mainWindow) {
-  try {
-    const iconPath = path.join(
+  
+  const tray = new Tray(
+    path.join(
       getAssetsPath(),
-      process.platform === "darwin" ? "trayIcon.icns" : "trayIcon.ico"
-    );
-    console.log("Tray icon path:", iconPath); // Debugging
+      process.platform === 'darwin' ? 'trayIcon.icns' : 'trayIcon.ico'
+    )
+  );
 
-    const tray = new Tray(iconPath);
-    tray.setToolTip("Deski App"); // Add a tooltip
-    console.log("Tray created successfully:", tray); // Debugging
-
-    // Optional: Add a click event to show/hide the main window
-    tray.on("click", () => {
-      if (mainWindow.isVisible()) {
-        mainWindow.hide();
-      } else {
-        mainWindow.show();
-      }
-    });
-  } catch (error) {
-    console.error("Error creating tray:", error); // Debugging
-  }
+  tray.setContextMenu(
+    Menu.buildFromTemplate([
+      {
+        label: 'Show',
+        click: () => {
+          mainWindow.show();
+          if (app.dock) {
+            app.dock.show();
+          }
+        },
+      },
+      {
+        label: 'Quit',
+        click: () => app.quit(),
+      },
+    ])
+  );
 }

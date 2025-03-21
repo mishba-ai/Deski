@@ -6,12 +6,14 @@ export function Header() {
     >
       <ul className="flex space-x-4 text-white font-bold">
         <li
+        id="close"
           onClick={() => window.electron.sendFrameAction("CLOSE")}
           style={{ WebkitAppRegion: "no-drag" }}
         >
           <button>close</button>
         </li>
         <li
+          id="minimize"
           onClick={() => window.electron.sendFrameAction("MINIMIZE")}
           style={{ WebkitAppRegion: "no-drag" }}
         >
@@ -19,6 +21,7 @@ export function Header() {
           <button className="px-2 py-1 border-sm border">minimize</button>{" "}
         </li>
         <li
+          id="maximize"
           onClick={() => window.electron.sendFrameAction("MAXIMIZE")}
           style={{ WebkitAppRegion: "no-drag" }}
         >
