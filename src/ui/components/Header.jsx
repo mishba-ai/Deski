@@ -1,4 +1,9 @@
 export function Header() {
+
+  function header(){
+    
+  }
+
   return (
     <header
       className="absolute top-0 left-0 right-0 h-12 bg-gray-800 flex items-center border-box "

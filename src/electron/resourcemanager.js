@@ -29,7 +29,7 @@ export function pollResources(mainWindow) {
 export function getStaticData() {
   try {
     const totalStorage = getStorageData().total;
-    const cpuModel = os.cpus()[0].model; // Fixed typo
+    const cpuModel = os.cpus()[0].model; 
     const totalMemoryGB = Math.floor(osUtils.totalmem() / 1024);
 
     return {

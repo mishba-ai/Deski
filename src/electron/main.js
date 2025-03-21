@@ -13,7 +13,7 @@ app.on("ready", () => {
       contextIsolation: true,
       nodeIntegration: false,
     },
-    frame: false,
+    // frame: false,
   });
 
   if (isDev()) {
